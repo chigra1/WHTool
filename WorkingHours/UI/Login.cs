@@ -59,6 +59,7 @@ namespace WorkingHours.UI
                 }
                 catch (MySqlException ex)
                 {
+                    string a = ex.Message;
                     MessageBox.Show("Invalid username/password, please try again", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 catch (Exception ex)
