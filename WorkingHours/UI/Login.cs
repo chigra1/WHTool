@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Data;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
@@ -24,7 +25,8 @@ namespace WorkingHours.UI
         {
             this.AcceptButton = this.btnLogin;
             MySqlConnection connection;
-            Common.CommonSettings.connectionString = "user id = " + tbUsername.Text + "; password = " + tbPassword.Text + "; server = 127.0.0.1; Database = work_hours; AllowPublicKeyRetrieval = true; SslMode = none";
+            //Common.CommonSettings.connectionString = "user id = " + tbUsername.Text + "; password = " + tbPassword.Text + "; server = 127.0.0.1; Database = work_hours; AllowPublicKeyRetrieval = true; SslMode = none";
+            Common.CommonSettings.connectionString = ConfigurationManager.ConnectionStrings["MySqlConnection"].ConnectionString;
 
             using (connection = new MySqlConnection(connectionString))
             {

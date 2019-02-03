@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.dataGridViewProjects = new System.Windows.Forms.DataGridView();
-            this.btnShowAllProjects = new System.Windows.Forms.Button();
             this.btnShowAllEmployees = new System.Windows.Forms.Button();
             this.dataGridViewEmployees = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -62,20 +61,10 @@
             // dataGridViewProjects
             // 
             this.dataGridViewProjects.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewProjects.Location = new System.Drawing.Point(12, 45);
+            this.dataGridViewProjects.Location = new System.Drawing.Point(9, 19);
             this.dataGridViewProjects.Name = "dataGridViewProjects";
-            this.dataGridViewProjects.Size = new System.Drawing.Size(616, 150);
+            this.dataGridViewProjects.Size = new System.Drawing.Size(496, 176);
             this.dataGridViewProjects.TabIndex = 0;
-            // 
-            // btnShowAllProjects
-            // 
-            this.btnShowAllProjects.Location = new System.Drawing.Point(12, 16);
-            this.btnShowAllProjects.Name = "btnShowAllProjects";
-            this.btnShowAllProjects.Size = new System.Drawing.Size(107, 23);
-            this.btnShowAllProjects.TabIndex = 1;
-            this.btnShowAllProjects.Text = "Show All Projects";
-            this.btnShowAllProjects.UseVisualStyleBackColor = true;
-            this.btnShowAllProjects.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnShowAllEmployees
             // 
@@ -97,11 +86,10 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btnShowAllProjects);
             this.groupBox1.Controls.Add(this.dataGridViewProjects);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(641, 216);
+            this.groupBox1.Size = new System.Drawing.Size(528, 216);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Projects";
@@ -315,7 +303,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.Button btnShowAllProjects;
         private System.Windows.Forms.Button btnShowAllEmployees;
         private System.Windows.Forms.DataGridView dataGridViewEmployees;
         private System.Windows.Forms.GroupBox groupBox1;

@@ -44,16 +44,7 @@ namespace WorkingHours.UI
             main.dataGridViewProjects.Rows.Clear();
             main.dataGridViewProjects.Columns.Clear();
 
-            main.dataGridViewProjects.ReadOnly = true;
-            main.dataGridViewProjects.DataSource = ds.Tables[0];
-            main.dataGridViewProjects.Columns[0].HeaderText = "Project Name";
-            main.dataGridViewProjects.AutoResizeColumn(0);
-            main.dataGridViewProjects.Columns[1].HeaderText = "Project Code";
-            main.dataGridViewProjects.AutoResizeColumn(1);
-            main.dataGridViewProjects.Columns[2].HeaderText = "Project Description";
-            main.dataGridViewProjects.AutoResizeColumn(2);
-            main.dataGridViewProjects.Columns[3].HeaderText = "Active";
-            main.dataGridViewProjects.AutoResizeColumn(3);
+            main.dataGridViewProjects.Refresh();
         }
     }
 }

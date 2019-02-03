@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System.Configuration;
 using WorkingHours.Common;
+using WorkingHours.Database;
 
 namespace WorkingHours.UI
 {
@@ -26,34 +27,47 @@ namespace WorkingHours.UI
         {
             InitializeComponent();
             this.user = user;
+
+            DisplayAllProjects();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void DisplayAllProjects()
         {
             this.dataGridViewProjects.DataSource = null;
             this.dataGridViewProjects.Rows.Clear();
             this.dataGridViewProjects.Columns.Clear();
 
+            DataSet ds = new DataSet();
+
             try
             {
-                var select = "SELECT * FROM project";
-                var c = new MySqlConnection(Common.CommonSettings.connectionString);
-                var dataAdapter = new MySqlDataAdapter(select, c);
-                var commandBuilder = new MySqlCommandBuilder(dataAdapter);
-                var ds = new DataSet();
-                dataAdapter.Fill(ds);
+                DBRetrieve retrieve = new DBRetrieve();
+                ds = retrieve.GetAllProjects();
+
                 dataGridViewProjects.ReadOnly = true;
                 dataGridViewProjects.DataSource = ds.Tables[0];
-                dataGridViewProjects.Columns[0].HeaderText = "Project ID";
+                dataGridViewProjects.Columns[0].HeaderText = "Id";
                 dataGridViewProjects.AutoResizeColumn(0);
-                dataGridViewProjects.Columns[1].HeaderText = "Project Name";
+                dataGridViewProjects.Columns[1].HeaderText = "Project Code";
                 dataGridViewProjects.AutoResizeColumn(1);
-                dataGridViewProjects.Columns[2].HeaderText = "Project Budget";
+                dataGridViewProjects.Columns[2].HeaderText = "Project Name";
                 dataGridViewProjects.AutoResizeColumn(2);
+                dataGridViewProjects.Columns[3].HeaderText = "Project Description";
+                dataGridViewProjects.AutoResizeColumn(3);
+                dataGridViewProjects.Columns[4].HeaderText = "Project Status";
+                dataGridViewProjects.AutoResizeColumn(4);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+
+            foreach (DataGridViewColumn column in dataGridViewProjects.Columns)
+            {
+                if (column.HeaderText == "Id")
+                {
+                    column.Visible = false;
+                }
             }
         }
 
