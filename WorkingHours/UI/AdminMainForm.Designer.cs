@@ -63,7 +63,7 @@
             this.dataGridViewProjects.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewProjects.Location = new System.Drawing.Point(9, 19);
             this.dataGridViewProjects.Name = "dataGridViewProjects";
-            this.dataGridViewProjects.Size = new System.Drawing.Size(496, 176);
+            this.dataGridViewProjects.Size = new System.Drawing.Size(543, 176);
             this.dataGridViewProjects.TabIndex = 0;
             // 
             // btnShowAllEmployees
@@ -89,7 +89,7 @@
             this.groupBox1.Controls.Add(this.dataGridViewProjects);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(528, 216);
+            this.groupBox1.Size = new System.Drawing.Size(560, 216);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Projects";

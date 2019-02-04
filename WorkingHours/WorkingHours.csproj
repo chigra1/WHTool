@@ -54,8 +54,8 @@
     <Compile Include="Common\SessionSettings.cs" />
     <Compile Include="Projects\Project.cs" />
     <Compile Include="Users\UserData.cs" />
-    <Compile Include="Database\Retrieve.cs" />
-    <Compile Include="Database\Store.cs" />
+    <Compile Include="Database\DBRetrieve.cs" />
+    <Compile Include="Database\DBStore.cs" />
     <Compile Include="UI\UserMainForm.cs">
       <SubType>Form</SubType>
     </Compile>

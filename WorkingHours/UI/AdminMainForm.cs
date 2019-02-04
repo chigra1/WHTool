@@ -11,6 +11,7 @@ using MySql.Data.MySqlClient;
 using System.Configuration;
 using WorkingHours.Common;
 using WorkingHours.Database;
+using WorkingHours.Projects;
 
 namespace WorkingHours.UI
 {
@@ -37,25 +38,48 @@ namespace WorkingHours.UI
             this.dataGridViewProjects.Rows.Clear();
             this.dataGridViewProjects.Columns.Clear();
 
-            DataSet ds = new DataSet();
+            List<Project> list = new List<Project>();
 
             try
             {
                 DBRetrieve retrieve = new DBRetrieve();
-                ds = retrieve.GetAllProjects();
+                list = retrieve.GetAllProjects();
+
+                BindingSource Source = new BindingSource();
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    Source.Add(list.ElementAt(i));
+                };
+
+                BindingSource bindingSource = new BindingSource();
+                bindingSource.DataSource = list;
+
+                dataGridViewProjects.AutoGenerateColumns = false;
+                dataGridViewProjects.AutoSize = true;
 
                 dataGridViewProjects.ReadOnly = true;
-                dataGridViewProjects.DataSource = ds.Tables[0];
-                dataGridViewProjects.Columns[0].HeaderText = "Id";
-                dataGridViewProjects.AutoResizeColumn(0);
-                dataGridViewProjects.Columns[1].HeaderText = "Project Code";
-                dataGridViewProjects.AutoResizeColumn(1);
-                dataGridViewProjects.Columns[2].HeaderText = "Project Name";
-                dataGridViewProjects.AutoResizeColumn(2);
-                dataGridViewProjects.Columns[3].HeaderText = "Project Description";
-                dataGridViewProjects.AutoResizeColumn(3);
-                dataGridViewProjects.Columns[4].HeaderText = "Project Status";
-                dataGridViewProjects.AutoResizeColumn(4);
+                dataGridViewProjects.DataSource = bindingSource;
+
+                DataGridViewColumn column = new DataGridViewTextBoxColumn();
+                column.DataPropertyName = "name";
+                column.Name = "Name";
+                dataGridViewProjects.Columns.Add(column);
+
+                column = new DataGridViewTextBoxColumn();
+                column.DataPropertyName = "code";
+                column.Name = "Code";
+                dataGridViewProjects.Columns.Add(column);
+
+                column = new DataGridViewTextBoxColumn();
+                column.DataPropertyName = "description";
+                column.Name = "Description";
+                dataGridViewProjects.Columns.Add(column);
+
+                column = new DataGridViewTextBoxColumn();
+                column.DataPropertyName = "active";
+                column.Name = "Active";
+                dataGridViewProjects.Columns.Add(column);
             }
             catch (Exception ex)
             {

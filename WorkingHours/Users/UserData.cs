@@ -17,6 +17,6 @@ namespace WorkingHours.Common
             this.type = type;
         }
 
-        public enum UserType { UNKNOWN = -1, Administrator = 0, RegularUser = 1 };
+        public enum UserType { UNKNOWN = -1, Administrator = 1, RegularUser = 2 };
     }
 }

@@ -8,10 +8,12 @@ namespace WorkingHours.Projects
 {
     public class Project
     {
-        public string name;
-        public string code;
-        public string description;
-        public Active active;
+        public string name { get; set; }
+        public string code { get; set; }
+        public string description { get; set; }
+        public Active active { get; set; }
+
+        public enum Active { ACTIVE = 1, INACTIVE = 2 }
 
         public Project(string name, string code, string description, Active active)
         {
@@ -21,6 +23,7 @@ namespace WorkingHours.Projects
             this.active = active;
         }
 
-        public enum Active { ACTIVE = 1, INACTIVE = 2 }
+
+
     }
 }

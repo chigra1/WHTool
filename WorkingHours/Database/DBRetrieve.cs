@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WorkingHours.Common;
 using WorkingHours.Projects;
+using static WorkingHours.Common.UserData;
 
 namespace WorkingHours.Database
 {
@@ -42,23 +43,36 @@ namespace WorkingHours.Database
             return res;
         }
 
-        public DataSet GetAllProjects()
+        public List<Project> GetAllProjects()
         {
-            DataSet res = new DataSet();
+            List<Project> res = new List<Project>();
 
             using (MySqlConnection connection = new MySqlConnection(CommonSettings.connectionString))
             {
+                string query = "SELECT * FROM project";
+
+                MySqlCommand command = new MySqlCommand(query, connection);
+                MySqlDataReader reader;
+
                 try
                 {
-                    string query = "SELECT * FROM project";
+                    connection.Open();
 
-                    var dataAdapter = new MySqlDataAdapter(query, connection);
-                    var commandBuilder = new MySqlCommandBuilder(dataAdapter);
-                    dataAdapter.Fill(res);
+                    reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        Project project = new Project(reader["project_name"].ToString(), reader["project_code"].ToString(), reader["description"].ToString(), (Project.Active)reader["status_project_id"]);
+                        res.Add(project);
+                    }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
                 }
             }
 
@@ -95,5 +109,84 @@ namespace WorkingHours.Database
 
             return res;
         }
+
+        public UserType GetUserType(string username)
+        {
+            UserType res = UserType.UNKNOWN;
+
+            using (MySqlConnection connection = new MySqlConnection(CommonSettings.connectionString))
+            {
+                string query = "SELECT user_status " +
+                    "FROM user where username='" + username + "';";
+
+                MySqlCommand command = new MySqlCommand(query, connection);
+                MySqlDataReader reader;
+
+                try
+                {
+                    connection.Open();
+
+                    reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        res = (UserType)reader.GetInt32("user_status");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+            return res;
+        }
+
+        /// <summary>
+        /// Check password for user
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public bool DoesUserExist(string username, string password)
+        {
+            bool res = false;
+
+            using (MySqlConnection connection = new MySqlConnection(CommonSettings.connectionString))
+            {
+                string query = "SELECT * " +
+                    "FROM user where username='" + username + "' AND password='" + password + "';";
+
+                MySqlCommand command = new MySqlCommand(query, connection);
+                MySqlDataReader reader;
+
+                try
+                {
+                    connection.Open();
+
+                    reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        if (reader.HasRows)
+                        {
+                            res = true;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+            return res;
+        }
+        
     }
 }

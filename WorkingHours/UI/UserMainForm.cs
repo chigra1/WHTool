@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
 using WorkingHours.Common;
 using WorkingHours.Database;
+using WorkingHours.Projects;
 
 namespace WorkingHours.UI
 {
@@ -23,21 +25,30 @@ namespace WorkingHours.UI
 
         private void UserMainForm_Load(object sender, EventArgs e)
         {
-            DataSet ds;
+            DataSet ds = new DataSet();
             DBRetrieve retrieve = new DBRetrieve();
             ds = retrieve.GetWorkingHoursForCurrentMonth(user);
+            List<Project> list = retrieve.GetAllProjects();
+
+            foreach (Project project in list)
+            {
+                cmbProjects.Items.Add(project.name);
+            }
 
             this.dgvWorkingHours.DataSource = null;
             this.dgvWorkingHours.Rows.Clear();
             this.dgvWorkingHours.Columns.Clear();
 
-            dgvWorkingHours.ReadOnly = true;
-            dgvWorkingHours.DataSource = ds.Tables[0];
-            dgvWorkingHours.Columns[0].HeaderText = "Date";
-            dgvWorkingHours.AutoResizeColumn(0);
-            dgvWorkingHours.Columns[1].HeaderText = "Project";
-            dgvWorkingHours.AutoResizeColumn(1);
-            dgvWorkingHours.Columns[2].HeaderText = "Hours";
+            if (ds.Tables.Count != 0)
+            {
+                dgvWorkingHours.ReadOnly = true;
+                dgvWorkingHours.DataSource = ds.Tables[0];
+                dgvWorkingHours.Columns[0].HeaderText = "Date";
+                dgvWorkingHours.AutoResizeColumn(0);
+                dgvWorkingHours.Columns[1].HeaderText = "Project";
+                dgvWorkingHours.AutoResizeColumn(1);
+                dgvWorkingHours.Columns[2].HeaderText = "Hours";
+            }
         }
     }
 }
