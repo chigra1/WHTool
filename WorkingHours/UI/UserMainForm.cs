@@ -4,20 +4,21 @@ using System.Data;
 using System.Windows.Forms;
 using WorkingHours.Common;
 using WorkingHours.Database;
+using WorkingHours.Employees;
 using WorkingHours.Projects;
 
 namespace WorkingHours.UI
 {
     public partial class UserMainForm : Form
     {
-        UserData user = null;
+        Employee user = null;
 
         public UserMainForm()
         {
             InitializeComponent();
         }
 
-        public UserMainForm(UserData user)
+        public UserMainForm(Employee user)
         {
             InitializeComponent();
             this.user = user;
@@ -49,6 +50,30 @@ namespace WorkingHours.UI
                 dgvWorkingHours.AutoResizeColumn(1);
                 dgvWorkingHours.Columns[2].HeaderText = "Hours";
             }
+        }
+
+        private void btnAddWorkingHours_Click(object sender, EventArgs e)
+        {
+            //if (cmbProjects.SelectedIndex == -1 || String.IsNullOrEmpty(tbNumberOFHours.Text))
+            //{
+            //    MessageBox.Show("Project name, number of hours and date must be selected", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //    return;
+            //}
+            //else
+            //{
+            //    int employeeID = user.;
+            //    int projectID = getProjectID();
+
+            //    if (employeeID < 1)
+            //    {
+            //        MessageBox.Show("User must be added in databse", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //        return;
+            //    }
+            //    else
+            //    {
+            //        AddWorkingHours(employeeID, projectID);
+            //    }
+            //}
         }
     }
 }

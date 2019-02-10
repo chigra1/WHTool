@@ -31,8 +31,8 @@
             this.dgvWorkingHours = new System.Windows.Forms.DataGridView();
             this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
             this.cmbProjects = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.btnAddWorkingHours = new System.Windows.Forms.Button();
+            this.tbNumberOFHours = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvWorkingHours)).BeginInit();
             this.SuspendLayout();
             // 
@@ -58,29 +58,30 @@
             this.cmbProjects.Size = new System.Drawing.Size(227, 21);
             this.cmbProjects.TabIndex = 2;
             // 
-            // button1
+            // btnAddWorkingHours
             // 
-            this.button1.Location = new System.Drawing.Point(181, 268);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnAddWorkingHours.Location = new System.Drawing.Point(29, 257);
+            this.btnAddWorkingHours.Name = "btnAddWorkingHours";
+            this.btnAddWorkingHours.Size = new System.Drawing.Size(75, 23);
+            this.btnAddWorkingHours.TabIndex = 4;
+            this.btnAddWorkingHours.Text = "Add Hours";
+            this.btnAddWorkingHours.UseVisualStyleBackColor = true;
+            this.btnAddWorkingHours.Click += new System.EventHandler(this.btnAddWorkingHours_Click);
             // 
-            // textBox1
+            // tbNumberOFHours
             // 
-            this.textBox1.Location = new System.Drawing.Point(29, 231);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 5;
+            this.tbNumberOFHours.Location = new System.Drawing.Point(29, 231);
+            this.tbNumberOFHours.Name = "tbNumberOFHours";
+            this.tbNumberOFHours.Size = new System.Drawing.Size(100, 20);
+            this.tbNumberOFHours.TabIndex = 5;
             // 
             // UserMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1089, 611);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.tbNumberOFHours);
+            this.Controls.Add(this.btnAddWorkingHours);
             this.Controls.Add(this.cmbProjects);
             this.Controls.Add(this.monthCalendar1);
             this.Controls.Add(this.dgvWorkingHours);
@@ -98,7 +99,7 @@
         private System.Windows.Forms.DataGridView dgvWorkingHours;
         private System.Windows.Forms.MonthCalendar monthCalendar1;
         private System.Windows.Forms.ComboBox cmbProjects;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button btnAddWorkingHours;
+        private System.Windows.Forms.TextBox tbNumberOFHours;
     }
 }

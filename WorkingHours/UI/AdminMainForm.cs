@@ -12,24 +12,26 @@ using System.Configuration;
 using WorkingHours.Common;
 using WorkingHours.Database;
 using WorkingHours.Projects;
+using WorkingHours.Employees;
 
 namespace WorkingHours.UI
 {
     public partial class AdminMainForm : Form
     {
-        UserData user = null;
+        Employee user = null;
 
         public AdminMainForm()
         {
             InitializeComponent();
         }
 
-        public AdminMainForm(UserData user)
+        public AdminMainForm(Employee user)
         {
             InitializeComponent();
             this.user = user;
 
             DisplayAllProjects();
+            DisplayAllEmployees();
         }
 
         private void DisplayAllProjects()
@@ -95,30 +97,66 @@ namespace WorkingHours.UI
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void DisplayAllEmployees()
         {
             this.dataGridViewEmployees.DataSource = null;
             this.dataGridViewEmployees.Rows.Clear();
             this.dataGridViewEmployees.Columns.Clear();
 
+            List<Employee> list = new List<Employee>();
+
             try
             {
-                var select = "SELECT employee.name, employee.surname FROM employee;";
-                var c = new MySqlConnection(Common.CommonSettings.connectionString);
-                var dataAdapter = new MySqlDataAdapter(select, c);
-                var commandBuilder = new MySqlCommandBuilder(dataAdapter);
-                var ds = new DataSet();
-                dataAdapter.Fill(ds);
+                DBRetrieve retrieve = new DBRetrieve();
+                list = retrieve.GetAllEmployees();
+
+                BindingSource Source = new BindingSource();
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    Source.Add(list.ElementAt(i));
+                };
+
+                BindingSource bindingSource = new BindingSource();
+                bindingSource.DataSource = list;
+
+                dataGridViewEmployees.AutoGenerateColumns = false;
+                dataGridViewEmployees.AutoSize = true;
+
                 dataGridViewEmployees.ReadOnly = true;
-                dataGridViewEmployees.DataSource = ds.Tables[0];
-                dataGridViewEmployees.Columns[0].HeaderText = "Name";
-                dataGridViewEmployees.AutoResizeColumn(0);
-                dataGridViewEmployees.Columns[1].HeaderText = "Surname";
-                dataGridViewEmployees.AutoResizeColumn(1);
+                dataGridViewEmployees.DataSource = bindingSource;
+
+                DataGridViewColumn column = new DataGridViewTextBoxColumn();
+                column.DataPropertyName = "name";
+                column.Name = "Name";
+                dataGridViewEmployees.Columns.Add(column);
+
+                column = new DataGridViewTextBoxColumn();
+                column.DataPropertyName = "surname";
+                column.Name = "Surname";
+                dataGridViewEmployees.Columns.Add(column);
+
+                column = new DataGridViewTextBoxColumn();
+                column.DataPropertyName = "status";
+                column.Name = "Status";
+                dataGridViewEmployees.Columns.Add(column);
+
+                column = new DataGridViewTextBoxColumn();
+                column.DataPropertyName = "position";
+                column.Name = "Position";
+                dataGridViewEmployees.Columns.Add(column);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+
+            foreach (DataGridViewColumn column in dataGridViewEmployees.Columns)
+            {
+                if (column.HeaderText == "Id")
+                {
+                    column.Visible = false;
+                }
             }
         }
 
@@ -319,7 +357,8 @@ namespace WorkingHours.UI
         {
             try
             {
-                var insert = "INSERT INTO work_hours.working_hours (employee_id, project_id, date, number_of_hours) VALUES ('" + employeeID + "', '" + projectID + "', '" + Calendar.SelectionRange.Start.ToString("yyyy-MM-dd") + "', '" + tbNumberOFHours.Text + "');";
+                var insert = "INSERT INTO work_hours.working_hours (employee_id, project_id, date, number_of_hours) " +
+                    "VALUES ('" + employeeID + "', '" + projectID + "', '" + Calendar.SelectionRange.Start.ToString("yyyy-MM-dd") + "', '" + tbNumberOFHours.Text + "');";
                 var c = new MySqlConnection(Common.CommonSettings.connectionString);
                 var dataAdapter = new MySqlDataAdapter(insert, c);
                 var commandBuilder = new MySqlCommandBuilder(dataAdapter);
@@ -343,7 +382,13 @@ namespace WorkingHours.UI
 
             try
             {
-                var select = "SELECT working_hours.date, project.project_name, working_hours.number_of_hours FROM work_hours.working_hours JOIN work_hours.project ON working_hours.project_id=project.id JOIN work_hours.employee ON working_hours.employee_id=employee.id WHERE employee.username='" + user + "' AND MONTH(working_hours.date) = " + month.ToString() + " ORDER BY working_hours.date;";
+                var select = "SELECT working_hours.date, project.project_name, working_hours.number_of_hours " +
+                    "FROM work_hours.working_hours " +
+                    "JOIN work_hours.project ON working_hours.project_id=project.id " +
+                    "JOIN work_hours.employee ON working_hours.employee_id=employee.id " +
+                    "WHERE employee.username='" + user.username + "' " +
+                    "AND MONTH(working_hours.date) = " + month.ToString() + " " +
+                    "ORDER BY working_hours.date;";
                 var c = new MySqlConnection(Common.CommonSettings.connectionString);
                 var dataAdapter = new MySqlDataAdapter(select, c);
                 var commandBuilder = new MySqlCommandBuilder(dataAdapter);

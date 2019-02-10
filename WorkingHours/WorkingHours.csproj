@@ -52,8 +52,8 @@
   <ItemGroup>
     <Compile Include="Common\CommonSettings.cs" />
     <Compile Include="Common\SessionSettings.cs" />
+    <Compile Include="Employees\Employee.cs" />
     <Compile Include="Projects\Project.cs" />
-    <Compile Include="Users\UserData.cs" />
     <Compile Include="Database\DBRetrieve.cs" />
     <Compile Include="Database\DBStore.cs" />
     <Compile Include="UI\UserMainForm.cs">

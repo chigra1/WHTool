@@ -74,7 +74,6 @@
             this.btnShowAllEmployees.TabIndex = 2;
             this.btnShowAllEmployees.Text = "Show All Employess";
             this.btnShowAllEmployees.UseVisualStyleBackColor = true;
-            this.btnShowAllEmployees.Click += new System.EventHandler(this.button2_Click);
             // 
             // dataGridViewEmployees
             // 

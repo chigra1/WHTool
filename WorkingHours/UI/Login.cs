@@ -5,21 +5,22 @@ using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using WorkingHours.Common;
 using WorkingHours.Database;
+using WorkingHours.Employees;
 using static WorkingHours.Common.CommonSettings;
-using static WorkingHours.Common.UserData;
+using static WorkingHours.Employees.Employee;
 
 namespace WorkingHours.UI
 {
     public partial class Login : Form
     {
-        UserData user = null;
+        Employee user = null;
         UserType userType;
 
         public Login()
         {
             InitializeComponent();
-            tbUsername.Text = "biljana.milojevic";
-            tbPassword.Text = "Bilja71";
+            tbUsername.Text = "marko.novkovic";
+            tbPassword.Text = "marko88";
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -37,11 +38,12 @@ namespace WorkingHours.UI
                     DBRetrieve retrieve = new DBRetrieve();
 
                     bool UserExist = retrieve.DoesUserExist(tbUsername.Text, tbPassword.Text);
+                    retrieve.GrantAllRightsOnDB();
 
                     if (UserExist)
                     {
                         userType = checkUserType(tbUsername.Text);
-                        user = new UserData(tbUsername.Text, userType);
+                        user = retrieve.GetEmployeeByUsername(tbUsername.Text);
 
                         switch (userType)
                         {

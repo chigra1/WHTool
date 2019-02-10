@@ -7,14 +7,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WorkingHours.Common;
+using WorkingHours.Employees;
 using WorkingHours.Projects;
-using static WorkingHours.Common.UserData;
+using static WorkingHours.Employees.Employee;
 
 namespace WorkingHours.Database
 {
     public class DBRetrieve
     {
-        public DataSet GetWorkingHoursForCurrentMonth(UserData user)
+        public DataSet GetWorkingHoursForCurrentMonth(Employee user)
         {
             DataSet res = new DataSet();
 
@@ -62,7 +63,7 @@ namespace WorkingHours.Database
 
                     while (reader.Read())
                     {
-                        Project project = new Project(reader["project_name"].ToString(), reader["project_code"].ToString(), reader["description"].ToString(), (Project.Active)reader["status_project_id"]);
+                        Project project = new Project(Convert.ToInt32(reader["id"]), reader["project_name"].ToString(), reader["project_code"].ToString(), reader["description"].ToString(), (Project.Active)reader["status_project_id"]);
                         res.Add(project);
                     }
                 }
@@ -79,7 +80,7 @@ namespace WorkingHours.Database
             return res;
         }
 
-        public DataSet GetWorkingHoursForLoggedUser(UserData user, int month)
+        public DataSet GetWorkingHoursForLoggedUser(Employee user, int month)
         {
             DataSet res = new DataSet();
 
@@ -116,8 +117,8 @@ namespace WorkingHours.Database
 
             using (MySqlConnection connection = new MySqlConnection(CommonSettings.connectionString))
             {
-                string query = "SELECT user_status " +
-                    "FROM user where username='" + username + "';";
+                string query = "SELECT user_status_id " +
+                    "FROM employee where username='" + username + "';";
 
                 MySqlCommand command = new MySqlCommand(query, connection);
                 MySqlDataReader reader;
@@ -130,7 +131,7 @@ namespace WorkingHours.Database
 
                     while (reader.Read())
                     {
-                        res = (UserType)reader.GetInt32("user_status");
+                        res = (UserType)reader.GetInt32("user_status_id");
                     }
                 }
                 catch (Exception ex)
@@ -157,7 +158,7 @@ namespace WorkingHours.Database
             using (MySqlConnection connection = new MySqlConnection(CommonSettings.connectionString))
             {
                 string query = "SELECT * " +
-                    "FROM user where username='" + username + "' AND password='" + password + "';";
+                    "FROM employee WHERE username='" + username + "' AND password='" + password + "';";
 
                 MySqlCommand command = new MySqlCommand(query, connection);
                 MySqlDataReader reader;
@@ -187,6 +188,103 @@ namespace WorkingHours.Database
             }
             return res;
         }
-        
+
+        public Employee GetEmployeeByUsername(string username)
+        {
+            Employee employee = new Employee();
+
+            using (MySqlConnection connection = new MySqlConnection(CommonSettings.connectionString))
+            {
+                string query = "SELECT * FROM employee WHERE employee.username = '" + username +"';";
+
+                MySqlCommand command = new MySqlCommand(query, connection);
+                MySqlDataReader reader;
+
+                try
+                {
+                    connection.Open();
+
+                    reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        employee = new Employee(reader["name"].ToString(), reader["surname"].ToString(), (Employee.EmployeeStatus)reader["employee_status_id"], (Employee.EmployeePosition)reader["position_id"], reader["username"].ToString(), (Employee.UserType)reader["user_status_id"]);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+
+            return employee;
+        }
+
+
+        public List<Employee> GetAllEmployees()
+        {
+            List<Employee> res = new List<Employee>();
+
+            using (MySqlConnection connection = new MySqlConnection(CommonSettings.connectionString))
+            {
+                string query = "SELECT employee.name, employee.surname, employee.employee_status_id, employee.position_id, employee.username, employee.user_status_id FROM employee;";
+
+                MySqlCommand command = new MySqlCommand(query, connection);
+                MySqlDataReader reader;
+
+                try
+                {
+                    connection.Open();
+
+                    reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        Employee employee = new Employee(reader["name"].ToString(), reader["surname"].ToString(), (Employee.EmployeeStatus)reader["employee_status_id"], (Employee.EmployeePosition)reader["position_id"], reader["username"].ToString(), (Employee.UserType)reader["user_status_id"]);
+                        res.Add(employee);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+
+            return res;
+        }
+
+        public void GrantAllRightsOnDB()
+        {
+            using (MySqlConnection connection = new MySqlConnection(CommonSettings.connectionString))
+            {
+                string query = "GRANT ALL ON WHTool.* TO 'dusan'@'*'";
+
+                MySqlCommand command = new MySqlCommand(query, connection);
+                MySqlDataReader reader;
+
+                try
+                {
+                    connection.Open();
+
+                    reader = command.ExecuteReader();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
     }
 }
