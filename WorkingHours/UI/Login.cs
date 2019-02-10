@@ -38,7 +38,6 @@ namespace WorkingHours.UI
                     DBRetrieve retrieve = new DBRetrieve();
 
                     bool UserExist = retrieve.DoesUserExist(tbUsername.Text, tbPassword.Text);
-                    retrieve.GrantAllRightsOnDB();
 
                     if (UserExist)
                     {

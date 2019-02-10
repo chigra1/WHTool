@@ -174,7 +174,7 @@ namespace WorkingHours.UI
 
             try
             {
-                var select = "SELECT employee.name, employee.surname FROM work_hours.employee LEFT JOIN work_hours.employee_status ON employee_status.id=employee.employee_status_id where employee_status.status='EXTERNAL';";
+                var select = "SELECT employee.name, employee.surname FROM employee LEFT JOIN employee_status ON employee_status.id=employee.employee_status_id where employee_status.status='EXTERNAL';";
                 var c = new MySqlConnection(Common.CommonSettings.connectionString);
                 var dataAdapter = new MySqlDataAdapter(select, c);
                 var commandBuilder = new MySqlCommandBuilder(dataAdapter);
@@ -201,7 +201,7 @@ namespace WorkingHours.UI
 
             try
             {
-                var select = "SELECT employee.name, employee.surname FROM work_hours.employee LEFT JOIN work_hours.employee_status ON employee_status.id=employee.employee_status_id where employee_status.status='INTERNAL';";
+                var select = "SELECT employee.name, employee.surname FROM employee LEFT JOIN work_hours.employee_status ON employee_status.id=employee.employee_status_id where employee_status.status='INTERNAL';";
                 var c = new MySqlConnection(Common.CommonSettings.connectionString);
                 var dataAdapter = new MySqlDataAdapter(select, c);
                 var commandBuilder = new MySqlCommandBuilder(dataAdapter);
@@ -235,7 +235,9 @@ namespace WorkingHours.UI
         /// </summary>
         private void comboBoxBind()
         {
-            var select = "SELECT project_name FROM work_hours.project JOIN work_hours.project_status ON project.status_project_id=project_status.id WHERE project_status.status='ACTIVE';";
+            var select = "SELECT project_name " +
+                "FROM project JOIN project_status " +
+                "ON project.status_project_id=project_status.id WHERE project_status.status='ACTIVE';";
             MySqlConnection c = new MySqlConnection(Common.CommonSettings.connectionString);
             MySqlCommand cmdDatabase = new MySqlCommand(select, c);
             MySqlDataReader myReader;
@@ -304,7 +306,7 @@ namespace WorkingHours.UI
 
             try
             {
-                var select = "SELECT employee.id FROM work_hours.employee WHERE employee.username='" + Common.SessionSettings.user.ToString() + "';";
+                var select = "SELECT employee.id FROM employee WHERE employee.username='" + Common.SessionSettings.user.ToString() + "';";
                 var c = new MySqlConnection(Common.CommonSettings.connectionString);
                 var dataAdapter = new MySqlDataAdapter(select, c);
                 var commandBuilder = new MySqlCommandBuilder(dataAdapter);
@@ -331,7 +333,7 @@ namespace WorkingHours.UI
         {
             try
             {
-                var select = "SELECT project.id FROM work_hours.project WHERE project.project_name='" + cmbProjects.SelectedItem.ToString() + "';";
+                var select = "SELECT project.id FROM project WHERE project.project_name='" + cmbProjects.SelectedItem.ToString() + "';";
                 var c = new MySqlConnection(Common.CommonSettings.connectionString);
                 var dataAdapter = new MySqlDataAdapter(select, c);
                 var commandBuilder = new MySqlCommandBuilder(dataAdapter);
@@ -357,7 +359,7 @@ namespace WorkingHours.UI
         {
             try
             {
-                var insert = "INSERT INTO work_hours.working_hours (employee_id, project_id, date, number_of_hours) " +
+                var insert = "INSERT INTO working_hours (employee_id, project_id, date, number_of_hours) " +
                     "VALUES ('" + employeeID + "', '" + projectID + "', '" + Calendar.SelectionRange.Start.ToString("yyyy-MM-dd") + "', '" + tbNumberOFHours.Text + "');";
                 var c = new MySqlConnection(Common.CommonSettings.connectionString);
                 var dataAdapter = new MySqlDataAdapter(insert, c);
@@ -383,9 +385,9 @@ namespace WorkingHours.UI
             try
             {
                 var select = "SELECT working_hours.date, project.project_name, working_hours.number_of_hours " +
-                    "FROM work_hours.working_hours " +
-                    "JOIN work_hours.project ON working_hours.project_id=project.id " +
-                    "JOIN work_hours.employee ON working_hours.employee_id=employee.id " +
+                    "FROM working_hours " +
+                    "JOIN project ON working_hours.project_id=project.id " +
+                    "JOIN employee ON working_hours.employee_id=employee.id " +
                     "WHERE employee.username='" + user.username + "' " +
                     "AND MONTH(working_hours.date) = " + month.ToString() + " " +
                     "ORDER BY working_hours.date;";
