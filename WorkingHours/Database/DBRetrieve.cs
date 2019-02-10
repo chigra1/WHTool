@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Calendar.NET;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -80,15 +81,13 @@ namespace WorkingHours.Database
             return res;
         }
 
-        public DataSet GetWorkingHoursForLoggedUser(Employee user, int month)
+        public List<CustomEvent> GetWorkingHoursForLoggedUser(Employee user, int month)
         {
-            DataSet res = new DataSet();
+            List<CustomEvent> res = new List<CustomEvent>();
 
             using (MySqlConnection connection = new MySqlConnection(CommonSettings.connectionString))
             {
-                try
-                {
-                    string query = "SELECT working_hours.date, project.project_name, working_hours.number_of_hours " +
+                string query = "SELECT working_hours.date, project.project_name, working_hours.number_of_hours " +
                         "FROM working_hours " +
                         "JOIN project " +
                         "ON working_hours.project_id=project.id " +
@@ -98,13 +97,28 @@ namespace WorkingHours.Database
                         "AND MONTH(working_hours.date) = " + month.ToString() + " " +
                         "ORDER BY working_hours.date;";
 
-                    var dataAdapter = new MySqlDataAdapter(query, connection);
-                    var commandBuilder = new MySqlCommandBuilder(dataAdapter);
-                    dataAdapter.Fill(res);
+                MySqlCommand command = new MySqlCommand(query, connection);
+                MySqlDataReader reader;
+
+                try
+                {
+                    connection.Open();
+
+                    reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        CustomEvent custom = new CustomEvent { IgnoreTimeComponent = true, Date = (DateTime)reader["date"], RecurringFrequency = RecurringFrequencies.None, EventLengthInHours = Convert.ToInt32(reader["number_of_hours"]), EventText = reader["project_name"].ToString() + " - " + reader["number_of_hours"].ToString() + "h" };
+                        res.Add(custom);
+                    }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
                 }
             }
 
@@ -208,7 +222,7 @@ namespace WorkingHours.Database
 
                     while (reader.Read())
                     {
-                        employee = new Employee(reader["name"].ToString(), reader["surname"].ToString(), (Employee.EmployeeStatus)reader["employee_status_id"], (Employee.EmployeePosition)reader["position_id"], reader["username"].ToString(), (Employee.UserType)reader["user_status_id"]);
+                        employee = new Employee(Convert.ToInt32(reader["id"]), reader["name"].ToString(), reader["surname"].ToString(), (Employee.EmployeeStatus)reader["employee_status_id"], (Employee.EmployeePosition)reader["position_id"], reader["username"].ToString(), (Employee.UserType)reader["user_status_id"]);
                     }
                 }
                 catch (Exception ex)
@@ -244,7 +258,7 @@ namespace WorkingHours.Database
 
                     while (reader.Read())
                     {
-                        Employee employee = new Employee(reader["name"].ToString(), reader["surname"].ToString(), (Employee.EmployeeStatus)reader["employee_status_id"], (Employee.EmployeePosition)reader["position_id"], reader["username"].ToString(), (Employee.UserType)reader["user_status_id"]);
+                        Employee employee = new Employee(Convert.ToInt32(reader["id"]), reader["name"].ToString(), reader["surname"].ToString(), (Employee.EmployeeStatus)reader["employee_status_id"], (Employee.EmployeePosition)reader["position_id"], reader["username"].ToString(), (Employee.UserType)reader["user_status_id"]);
                         res.Add(employee);
                     }
                 }

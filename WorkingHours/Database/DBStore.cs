@@ -39,5 +39,32 @@ namespace WorkingHours.Database
             }
             return res;
         }
+
+        public void AddWorkingHours(int projectID, string date, string numberOfHours)
+        {
+            using (MySqlConnection connection = new MySqlConnection(CommonSettings.connectionString))
+            {
+                string query = "INSERT INTO working_hours (employee_id, project_id, date, number_of_hours) " +
+                    "VALUES ('" + SessionSettings.user.id + "', '" + projectID + "', '" + date + "', '" + numberOfHours + "');";
+
+                MySqlCommand command = new MySqlCommand(query, connection);
+
+                try
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                    MessageBox.Show("Project added");
+                }
+            }
+        }
     }
 }

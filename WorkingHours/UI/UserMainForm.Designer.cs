@@ -33,15 +33,16 @@
             this.cmbProjects = new System.Windows.Forms.ComboBox();
             this.btnAddWorkingHours = new System.Windows.Forms.Button();
             this.tbNumberOFHours = new System.Windows.Forms.TextBox();
+            this.calendar = new Calendar.NET.Calendar();
             ((System.ComponentModel.ISupportInitialize)(this.dgvWorkingHours)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvWorkingHours
             // 
             this.dgvWorkingHours.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvWorkingHours.Location = new System.Drawing.Point(291, 12);
+            this.dgvWorkingHours.Location = new System.Drawing.Point(12, 442);
             this.dgvWorkingHours.Name = "dgvWorkingHours";
-            this.dgvWorkingHours.Size = new System.Drawing.Size(786, 363);
+            this.dgvWorkingHours.Size = new System.Drawing.Size(158, 118);
             this.dgvWorkingHours.TabIndex = 0;
             // 
             // monthCalendar1
@@ -75,18 +76,44 @@
             this.tbNumberOFHours.Size = new System.Drawing.Size(100, 20);
             this.tbNumberOFHours.TabIndex = 5;
             // 
+            // calendar
+            // 
+            this.calendar.AllowEditingEvents = true;
+            this.calendar.CalendarDate = new System.DateTime(2019, 2, 10, 19, 11, 44, 308);
+            this.calendar.CalendarView = Calendar.NET.CalendarViews.Month;
+            this.calendar.DateHeaderFont = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
+            this.calendar.DayOfWeekFont = new System.Drawing.Font("Arial", 10F);
+            this.calendar.DaysFont = new System.Drawing.Font("Arial", 10F);
+            this.calendar.DayViewTimeFont = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.calendar.DimDisabledEvents = true;
+            this.calendar.HighlightCurrentDay = true;
+            this.calendar.LoadPresetHolidays = true;
+            this.calendar.Location = new System.Drawing.Point(278, 12);
+            this.calendar.Name = "calendar";
+            this.calendar.ShowArrowControls = true;
+            this.calendar.ShowDashedBorderOnDisabledEvents = true;
+            this.calendar.ShowDateInHeader = true;
+            this.calendar.ShowDisabledEvents = false;
+            this.calendar.ShowEventTooltips = true;
+            this.calendar.ShowTodayButton = true;
+            this.calendar.Size = new System.Drawing.Size(1060, 689);
+            this.calendar.TabIndex = 6;
+            this.calendar.TodayFont = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.calendar.MouseClick += new System.Windows.Forms.MouseEventHandler(this.calendar_MouseClick);
+            // 
             // UserMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1089, 611);
+            this.ClientSize = new System.Drawing.Size(1350, 729);
+            this.Controls.Add(this.calendar);
             this.Controls.Add(this.tbNumberOFHours);
             this.Controls.Add(this.btnAddWorkingHours);
             this.Controls.Add(this.cmbProjects);
             this.Controls.Add(this.monthCalendar1);
             this.Controls.Add(this.dgvWorkingHours);
             this.Name = "UserMainForm";
-            this.Text = "AdminMainForm";
+            this.Text = "User Form";
             this.Load += new System.EventHandler(this.UserMainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvWorkingHours)).EndInit();
             this.ResumeLayout(false);
@@ -101,5 +128,6 @@
         private System.Windows.Forms.ComboBox cmbProjects;
         private System.Windows.Forms.Button btnAddWorkingHours;
         private System.Windows.Forms.TextBox tbNumberOFHours;
+        private Calendar.NET.Calendar calendar;
     }
 }

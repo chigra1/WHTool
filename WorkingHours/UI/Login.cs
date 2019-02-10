@@ -19,8 +19,8 @@ namespace WorkingHours.UI
         public Login()
         {
             InitializeComponent();
-            tbUsername.Text = "marko.novkovic";
-            tbPassword.Text = "marko88";
+            tbUsername.Text = "borjana.panic";
+            tbPassword.Text = "borjana";
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -43,6 +43,7 @@ namespace WorkingHours.UI
                     {
                         userType = checkUserType(tbUsername.Text);
                         user = retrieve.GetEmployeeByUsername(tbUsername.Text);
+                        SessionSettings.user = user;
 
                         switch (userType)
                         {

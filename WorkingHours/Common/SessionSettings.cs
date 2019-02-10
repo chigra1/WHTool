@@ -9,6 +9,6 @@ namespace WorkingHours.Common
 {
     public class SessionSettings
     {
-        public static Employee user { get; }
+        public static Employee user { get; set; }
     }
 }

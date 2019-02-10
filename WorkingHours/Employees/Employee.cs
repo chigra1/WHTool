@@ -26,7 +26,7 @@ namespace WorkingHours.Employees
 
         }
 
-        public Employee (string name, string surname, EmployeeStatus status, EmployeePosition position, string username, UserType type)
+        public Employee (int id, string name, string surname, EmployeeStatus status, EmployeePosition position, string username, UserType type)
         {
             this.id = id;
             this.name = name;
