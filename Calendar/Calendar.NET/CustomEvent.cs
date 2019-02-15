@@ -86,6 +86,18 @@ namespace Calendar.NET
             set;
         }
 
+        public int ProjectId
+        {
+            get;
+            set;
+        }
+
+        public int InsertId
+        {
+            get;
+            set;
+        }
+
         public bool ThisDayForwardOnly
         {
             get;
@@ -97,8 +109,8 @@ namespace Calendar.NET
         /// </summary>
         public CustomEvent()
         {
-            EventColor = Color.FromArgb(255, 80, 80);
-            EventFont = new Font("Arial", 8, FontStyle.Bold);
+            EventColor = Color.FromArgb(40, 150, 50);
+            EventFont = new Font("Arial", 11, FontStyle.Bold);
             EventTextColor = Color.FromArgb(255, 255, 255);
             Rank = 2;
             EventLengthInHours = 1.0f;
@@ -106,6 +118,8 @@ namespace Calendar.NET
             Enabled = true;
             IgnoreTimeComponent = false;
             TooltipEnabled = true;
+            ProjectId = 0;
+            InsertId = 0;
             ThisDayForwardOnly = true;
             RecurringFrequency = RecurringFrequencies.None;
         }

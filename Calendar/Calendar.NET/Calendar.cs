@@ -507,7 +507,7 @@ namespace Calendar.NET
                     _showingToolTip = true;
                     _eventTip.EventToolTipText = z.Event.EventText;
                     if (z.Event.IgnoreTimeComponent == false)
-                        _eventTip.EventToolTipText += "\n" + z.Event.Date.ToShortTimeString();
+                        _eventTip.EventToolTipText += "\n" + z.Event.EventLengthInHours +" H" + "\n" + z.Event.InsertId;
                     _eventTip.Location = new Point(e.X + 5, e.Y - _eventTip.CalculateSize().Height);
                     _eventTip.ShouldRender = true;
                     _eventTip.Visible = true;
@@ -542,14 +542,14 @@ namespace Calendar.NET
             }
         }
 
-        private void CalendarMouseClick(object sender, MouseEventArgs e)
+        public void CalendarMouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right && AllowEditingEvents)
             {
                 if (_calendarView == CalendarViews.Month)
                 {
-                    int num = _calendarEvents.Count;
-                    for (int i = 0; i < num; i++)
+                    int num1 = _calendarEvents.Count;
+                    for (int i = 0; i < num1; i++)
                     {
                         var z = _calendarEvents[i];
 
@@ -562,6 +562,26 @@ namespace Calendar.NET
                             break;
                         }
                     }
+                }
+                
+            }
+
+            int num = _rectangles.Count;
+            for (int i = 0; i < num; i++)
+            {
+                var w = _rectangles[i];
+
+                if (w.Contains(e.X, e.Y))
+                {
+                    DateTime clicked_date = new DateTime(_calendarDate.Year, _calendarDate.Month, i + 1);
+                    
+                    CalendarDate = clicked_date;
+
+
+                    if (RectangleClick != null)
+                        RectangleClick(clicked_date, null);
+
+                    return;
                 }
             }
         }
@@ -614,13 +634,14 @@ namespace Calendar.NET
             _events.Remove(_clickedEvent.Event);
             Refresh();
 
+            if (SomethingHappened != null)
+                SomethingHappened(_clickedEvent, null);
+
             _clickedEvent = null;
         }
 
-        private CalendarEvent getEvent(CalendarEvent cEvent)
-        {
-            return cEvent;
-        }
+        public event EventHandler SomethingHappened;
+        public event EventHandler RectangleClick;
 
         private void ParentResize(object sender, EventArgs e)
         {
@@ -912,6 +933,7 @@ namespace Calendar.NET
 
         private void RenderMonthCalendar(PaintEventArgs e)
         {
+            _rectangles.Clear();
             _calendarDays.Clear();
             _calendarEvents.Clear();
             var bmp = new Bitmap(ClientSize.Width, ClientSize.Height);
@@ -936,7 +958,7 @@ namespace Calendar.NET
             int xStart = MarginSize;
             int yStart = MarginSize;
             DayOfWeek startWeekEnum = new DateTime(_calendarDate.Year, _calendarDate.Month, 1).DayOfWeek;
-           //int startWeek = ((int)startWeekEnum) + 1;
+            //int startWeek = ((int)startWeekEnum) + 1;
             int startWeek = ((int)startWeekEnum);
             if (startWeek == 0) startWeek = 7;
 
@@ -961,10 +983,22 @@ namespace Calendar.NET
                         if (!_calendarDays.ContainsKey(counter))
                             _calendarDays.Add(counter, new Point(xStart, (int)(yStart + 2f + g.MeasureString(counter.ToString(CultureInfo.InvariantCulture), _daysFont).Height)));
 
+                        _rectangles.Add(new Rectangle(xStart, yStart, cellWidth, cellHeight));
+
                         if (_calendarDate.Year == DateTime.Now.Year && _calendarDate.Month == DateTime.Now.Month
                          && counter == DateTime.Now.Day && _highlightCurrentDay)
                         {
                             g.FillRectangle(new SolidBrush(Color.FromArgb(100, 180, 250)), xStart, yStart, cellWidth, cellHeight);
+                        }
+
+                        if (new DateTime(_calendarDate.Year, _calendarDate.Month, counter).DayOfWeek == DayOfWeek.Saturday || new DateTime(_calendarDate.Year, _calendarDate.Month, counter).DayOfWeek == DayOfWeek.Sunday)
+                        {
+                            g.FillRectangle(new SolidBrush(Color.FromArgb(230, 150, 150)), xStart, yStart, cellWidth, cellHeight);
+                        }
+
+                        if (_calendarDate.Day == counter && _highlightCurrentDay)
+                        {
+                            g.FillRectangle(new SolidBrush(Color.FromArgb(100, 100, 100)), xStart, yStart, cellWidth, cellHeight);
                         }
 
                         if (first == false)
@@ -996,6 +1030,7 @@ namespace Calendar.NET
                                 g.DrawString(counter.ToString(CultureInfo.InvariantCulture), _daysFont, Brushes.Black, xStart + 5, yStart + 2);
                             }
                         }
+                        
                         counter++;
                     }
                     else if (rogueDays > 0)
@@ -1007,7 +1042,7 @@ namespace Calendar.NET
                         rogueDays--;
                     }
 
-                    g.DrawRectangle(Pens.DarkGray, xStart, yStart, cellWidth, cellHeight);
+                    g.DrawRectangle(Pens.Black, xStart, yStart, cellWidth, cellHeight);
                     if (rogueDays == 0 && counter > DateTime.DaysInMonth(_calendarDate.Year, _calendarDate.Month))
                     {
                         if (first2 == false)
@@ -1029,6 +1064,7 @@ namespace Calendar.NET
                     }
                     xStart += cellWidth;
                 }
+
                 xStart = MarginSize;
                 yStart += cellHeight;
             }
@@ -1122,12 +1158,13 @@ namespace Calendar.NET
                     }
                 }
             }
-            _rectangles.Clear();
 
             g.Dispose();
             e.Graphics.DrawImage(bmp, 0, 0, ClientSize.Width, ClientSize.Height);
             bmp.Dispose();
         }
+
+
 
         private bool NeedsRendering(IEvent evnt, DateTime day)
         {

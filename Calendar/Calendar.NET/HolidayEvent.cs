@@ -92,6 +92,33 @@ namespace Calendar.NET
             set;
         }
 
+        public int ProjectId
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int InsertId
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+
         /// <summary>
         /// HolidayEvent Constructor
         /// </summary>

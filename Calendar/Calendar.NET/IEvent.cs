@@ -76,6 +76,14 @@ namespace Calendar.NET
         /// </summary>
         float EventLengthInHours { get; set; }
         /// <summary>
+        /// The ProjectId
+        /// </summary>
+        int ProjectId { get; set; }
+        /// <summary>
+        /// The ProjectId
+        /// </summary>
+        int InsertId { get; set; }
+        /// <summary>
         /// The color that the event show up in on the calendar
         /// </summary>
         Color EventColor { get; set; }
