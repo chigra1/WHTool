@@ -13,6 +13,7 @@ namespace WorkingHours.UI
     public partial class UserMainForm : Form
     {
         Employee user = null;
+        DateTime selectedDate;
 
         public UserMainForm()
         {
@@ -23,6 +24,23 @@ namespace WorkingHours.UI
         {
             InitializeComponent();
             this.user = user;
+
+            calendar.SomethingHappened += HandleSomethingHappening;
+            calendar.RectangleClick += HandleRectangleClick;
+        }
+
+        public void HandleSomethingHappening(object sender, EventArgs e)
+        {
+            CalendarEvent cevent = (CalendarEvent)sender;
+
+            DBStore store = new DBStore();
+            store.DeleteWorkingHours(cevent.Event.InsertId);
+        }
+
+        public void HandleRectangleClick(object sender, EventArgs e)
+        {
+            DateTime date = (DateTime)sender;
+            selectedDate = date;
         }
 
         private void UserMainForm_Load(object sender, EventArgs e)
@@ -36,21 +54,6 @@ namespace WorkingHours.UI
 
             cmbProjects.DataSource = list;
             cmbProjects.DisplayMember = "name";
-
-            this.dgvWorkingHours.DataSource = null;
-            this.dgvWorkingHours.Rows.Clear();
-            this.dgvWorkingHours.Columns.Clear();
-
-            if (ds.Tables.Count != 0)
-            {
-                dgvWorkingHours.ReadOnly = true;
-                dgvWorkingHours.DataSource = ds.Tables[0];
-                dgvWorkingHours.Columns[0].HeaderText = "Date";
-                dgvWorkingHours.AutoResizeColumn(0);
-                dgvWorkingHours.Columns[1].HeaderText = "Project";
-                dgvWorkingHours.AutoResizeColumn(1);
-                dgvWorkingHours.Columns[2].HeaderText = "Hours";
-            }
         }
 
         private void btnAddWorkingHours_Click(object sender, EventArgs e)
@@ -83,11 +86,18 @@ namespace WorkingHours.UI
         {
             try
             {
-                DBStore store = new DBStore();
-                store.AddWorkingHours(projectID, monthCalendar1.SelectionRange.Start.ToString("yyyy-MM-dd"), tbNumberOFHours.Text);
+                if (selectedDate != null)
+                {
+                    DBStore store = new DBStore();
+                    store.AddWorkingHours(projectID, selectedDate.ToString("yyyy-MM-dd"), tbNumberOFHours.Text);
 
-                calendar.RemoveAllEvents();               
-                LoadHoursForCurrentUser();
+                    calendar.RemoveAllEvents();
+                    LoadHoursForCurrentUser();
+                }
+                else
+                {
+                    MessageBox.Show("Please select date");
+                }             
             }
             catch (Exception ex)
             {
@@ -110,11 +120,6 @@ namespace WorkingHours.UI
 
             calendar.IsAccessible = true;
             calendar.Enabled = true;
-        }
-
-        private void calendar_MouseClick(object sender, MouseEventArgs e)
-        {
-
         }
     }
 }

@@ -66,5 +66,32 @@ namespace WorkingHours.Database
                 }
             }
         }
+
+        public void DeleteWorkingHours(int insertID)
+        {
+            using (MySqlConnection connection = new MySqlConnection(CommonSettings.connectionString))
+            {
+                string query = "DELETE FROM working_hours " +
+                    "WHERE employee_id = " + SessionSettings.user.id + " AND id = " + insertID + ";";
+
+                MySqlCommand command = new MySqlCommand(query, connection);
+
+                try
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                    MessageBox.Show("Hours deleted");
+                }
+            }
+        }
     }
 }

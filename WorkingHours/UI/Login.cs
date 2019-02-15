@@ -60,8 +60,8 @@ namespace WorkingHours.UI
                             case UserType.RegularUser:
                                 MessageBox.Show("Succesfully connected to database!", "Connection succesfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 UserMainForm u = new UserMainForm(user);
-                                u.ShowDialog();
-                                this.Hide();
+                                u.Show();
+                                //this.Close();
                                 break;
                         }
                     }

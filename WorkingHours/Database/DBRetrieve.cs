@@ -87,7 +87,7 @@ namespace WorkingHours.Database
 
             using (MySqlConnection connection = new MySqlConnection(CommonSettings.connectionString))
             {
-                string query = "SELECT working_hours.date, project.project_name, working_hours.number_of_hours " +
+                string query = "SELECT working_hours.date, working_hours.id, project.project_name, working_hours.number_of_hours " +
                         "FROM working_hours " +
                         "JOIN project " +
                         "ON working_hours.project_id=project.id " +
@@ -108,7 +108,7 @@ namespace WorkingHours.Database
 
                     while (reader.Read())
                     {
-                        CustomEvent custom = new CustomEvent { IgnoreTimeComponent = true, Date = (DateTime)reader["date"], RecurringFrequency = RecurringFrequencies.None, EventLengthInHours = Convert.ToInt32(reader["number_of_hours"]), EventText = reader["project_name"].ToString() + " - " + reader["number_of_hours"].ToString() + "h" };
+                        CustomEvent custom = new CustomEvent { InsertId = Convert.ToInt32(reader["id"]), IgnoreTimeComponent = false, Date = (DateTime)reader["date"], RecurringFrequency = RecurringFrequencies.None, EventLengthInHours = Convert.ToInt32(reader["number_of_hours"]), EventText = reader["project_name"].ToString() };
                         res.Add(custom);
                     }
                 }
