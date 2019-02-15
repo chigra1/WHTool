@@ -96,7 +96,7 @@
             this.calendar.ShowDisabledEvents = false;
             this.calendar.ShowEventTooltips = true;
             this.calendar.ShowTodayButton = true;
-            this.calendar.Size = new System.Drawing.Size(1060, 689);
+            this.calendar.Size = new System.Drawing.Size(1060, 673);
             this.calendar.TabIndex = 6;
             this.calendar.TodayFont = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
             this.calendar.MouseClick += new System.Windows.Forms.MouseEventHandler(this.calendar_MouseClick);

@@ -86,20 +86,8 @@ namespace WorkingHours.UI
                 DBStore store = new DBStore();
                 store.AddWorkingHours(projectID, monthCalendar1.SelectionRange.Start.ToString("yyyy-MM-dd"), tbNumberOFHours.Text);
 
-                calendar.RemoveAllEvents();
-                
-                //calendar.Dispose();
-                //calendar.Show();
-                //calendar.Load();
+                calendar.RemoveAllEvents();               
                 LoadHoursForCurrentUser();
-                //calendar.Refresh();
-                /*dgvWorkingHours.AutoGenerateColumns = false;
-                dgvWorkingHours.AutoSize = true;
-
-                dgvWorkingHours.ReadOnly = true;
-                dgvWorkingHours.DataSource = ds.Tables[0];
-
-                dgvWorkingHours.Refresh();*/
             }
             catch (Exception ex)
             {
@@ -116,8 +104,6 @@ namespace WorkingHours.UI
             {
                 calendar.AddEvent(custom);
             }
-
-            //calendar.HighlightCurrentDay
 
             calendar.CalendarView = CalendarViews.Month;
             calendar.AllowEditingEvents = true;
