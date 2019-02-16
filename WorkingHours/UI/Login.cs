@@ -19,13 +19,19 @@ namespace WorkingHours.UI
         public Login()
         {
             InitializeComponent();
-            tbUsername.Text = "borjana.panic";
-            tbPassword.Text = "borjana";
+            this.AcceptButton = this.btnLogin;
+
+            tbUsername.Text = Properties.Settings.Default.username;
+            tbPassword.Text = Properties.Settings.Default.password;
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            this.AcceptButton = this.btnLogin;
+            Properties.Settings.Default.username = tbUsername.Text;
+            Properties.Settings.Default.password = tbPassword.Text;
+
+            Properties.Settings.Default.Save();
+
             MySqlConnection connection;
             Common.CommonSettings.connectionString = ConfigurationManager.ConnectionStrings["MySqlConnection"].ConnectionString;
 
@@ -52,13 +58,13 @@ namespace WorkingHours.UI
                                 this.Show();
                                 return;
                             case UserType.Administrator:
-                                MessageBox.Show("Succesfully connected to database!", "Connection succesfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                //MessageBox.Show("Succesfully connected to database!", "Connection succesfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 AdminMainForm a = new AdminMainForm(user);
                                 a.Show();
                                 this.Hide();
                                 break;
                             case UserType.RegularUser:
-                                MessageBox.Show("Succesfully connected to database!", "Connection succesfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                //MessageBox.Show("Succesfully connected to database!", "Connection succesfull", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 UserMainForm u = new UserMainForm(user);
                                 u.Show();
                                 //this.Close();
@@ -71,11 +77,6 @@ namespace WorkingHours.UI
                         this.Show();
                         return;
                     }
-                }
-                catch (MySqlException ex)
-                {
-                    string a = ex.Message;
-                    MessageBox.Show("Invalid username/password, please try again", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 catch (Exception ex)
                 {

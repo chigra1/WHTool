@@ -89,7 +89,6 @@ namespace WorkingHours.Database
                 finally
                 {
                     connection.Close();
-                    MessageBox.Show("Hours deleted");
                 }
             }
         }

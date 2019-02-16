@@ -25,11 +25,11 @@ namespace WorkingHours.UI
             InitializeComponent();
             this.user = user;
 
-            calendar.SomethingHappened += HandleSomethingHappening;
+            calendar.DeleteWorkingHours += HandleDeleteWorkingHours;
             calendar.RectangleClick += HandleRectangleClick;
         }
 
-        public void HandleSomethingHappening(object sender, EventArgs e)
+        public void HandleDeleteWorkingHours(object sender, EventArgs e)
         {
             CalendarEvent cevent = (CalendarEvent)sender;
 
@@ -120,6 +120,11 @@ namespace WorkingHours.UI
 
             calendar.IsAccessible = true;
             calendar.Enabled = true;
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

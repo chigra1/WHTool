@@ -33,6 +33,7 @@
             this.tbNumberOFHours = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.btnClose = new System.Windows.Forms.Button();
             this.calendar = new Calendar.NET.Calendar();
             this.SuspendLayout();
             // 
@@ -81,9 +82,20 @@
             this.label2.TabIndex = 8;
             this.label2.Text = "Select Project:";
             // 
+            // btnClose
+            // 
+            this.btnClose.Location = new System.Drawing.Point(1263, 694);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(75, 23);
+            this.btnClose.TabIndex = 9;
+            this.btnClose.Text = "Close";
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
             // calendar
             // 
             this.calendar.AllowEditingEvents = true;
+            this.calendar.AutoScroll = true;
             this.calendar.CalendarDate = new System.DateTime(2019, 2, 10, 19, 11, 44, 308);
             this.calendar.CalendarView = Calendar.NET.CalendarViews.Month;
             this.calendar.DateHeaderFont = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
@@ -110,6 +122,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1350, 729);
+            this.Controls.Add(this.btnClose);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.calendar);
@@ -131,5 +144,6 @@
         private Calendar.NET.Calendar calendar;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnClose;
     }
 }

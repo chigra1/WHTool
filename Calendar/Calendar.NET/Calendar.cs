@@ -634,13 +634,13 @@ namespace Calendar.NET
             _events.Remove(_clickedEvent.Event);
             Refresh();
 
-            if (SomethingHappened != null)
-                SomethingHappened(_clickedEvent, null);
+            if (DeleteWorkingHours != null)
+                DeleteWorkingHours(_clickedEvent, null);
 
             _clickedEvent = null;
         }
 
-        public event EventHandler SomethingHappened;
+        public event EventHandler DeleteWorkingHours;
         public event EventHandler RectangleClick;
 
         private void ParentResize(object sender, EventArgs e)
@@ -651,82 +651,82 @@ namespace Calendar.NET
 
         private void PresetHolidays()
         {
-            var aprilFools = new HolidayEvent
-            {
-                Date = new DateTime(DateTime.Now.Year, 4, 1),
-                RecurringFrequency = RecurringFrequencies.Yearly,
-                EventText = "April Fools Day"
-            };
-            AddEvent(aprilFools);
-
-            var memorialDay = new HolidayEvent
-            {
-                Date = new DateTime(DateTime.Now.Year, 5, 28),
-                RecurringFrequency = RecurringFrequencies.Custom,
-                EventText = "Memorial Day",
-                CustomRecurringFunction = MemorialDayHandler
-            };
-            AddEvent(memorialDay);
-
-            var newYears = new HolidayEvent
+            var newYearsEve = new HolidayEvent
             {
                 Date = new DateTime(DateTime.Now.Year, 1, 1),
                 RecurringFrequency = RecurringFrequencies.Yearly,
-                EventText = "New Years Day"
+                EventText = "New Year's Day"
             };
-            AddEvent(newYears);
+            AddEvent(newYearsEve);
 
-            var mlkDay = new HolidayEvent
+            var dayAfterNewYearsEve = new HolidayEvent
             {
-                Date = new DateTime(DateTime.Now.Year, 1, 15),
-                RecurringFrequency = RecurringFrequencies.Custom,
-                EventText = "Martin Luther King Jr. Day",
+                Date = new DateTime(DateTime.Now.Year, 1, 2),
+                RecurringFrequency = RecurringFrequencies.Yearly,
+                EventText = "Day after New Year's Day",
+                CustomRecurringFunction = MemorialDayHandler
+            };
+            AddEvent(dayAfterNewYearsEve);
+
+            var orthodoxChristmasDay = new HolidayEvent
+            {
+                Date = new DateTime(DateTime.Now.Year, 1, 7),
+                RecurringFrequency = RecurringFrequencies.Yearly,
+                EventText = "Orthodox Christmas Day"
+            };
+            AddEvent(orthodoxChristmasDay);
+
+            var orthodoxChristmasHoliday = new HolidayEvent
+            {
+                Date = new DateTime(DateTime.Now.Year, 1, 8),
+                RecurringFrequency = RecurringFrequencies.Yearly,
+                EventText = "Orthodox Christmas Holiday",
                 CustomRecurringFunction = MlkDayHandler
             };
-            AddEvent(mlkDay);
+            AddEvent(orthodoxChristmasHoliday);
 
-            var presidentsDay = new HolidayEvent
+            var serbianNewYear = new HolidayEvent
+            {
+                Date = new DateTime(DateTime.Now.Year, 1, 14),
+                RecurringFrequency = RecurringFrequencies.Yearly,
+                EventText = "Serbian New Year",
+                CustomRecurringFunction = MlkDayHandler
+            };
+            AddEvent(serbianNewYear);
+
+            var stSavasDay = new HolidayEvent
+            {
+                Date = new DateTime(DateTime.Now.Year, 1, 27),
+                RecurringFrequency = RecurringFrequencies.Yearly,
+                EventText = "St. Sava's Day"
+            };
+            AddEvent(stSavasDay);
+
+            var sovereigntyDayOfSerbia = new HolidayEvent
             {
                 Date = new DateTime(DateTime.Now.Year, 2, 15),
-                RecurringFrequency = RecurringFrequencies.Custom,
-                EventText = "President's Day",
-                CustomRecurringFunction = MlkDayHandler
-            };
-            AddEvent(presidentsDay);
-
-            var independanceDay = new HolidayEvent
-            {
-                Date = new DateTime(DateTime.Now.Year, 7, 4),
                 RecurringFrequency = RecurringFrequencies.Yearly,
-                EventText = "Independence Day"
-            };
-            AddEvent(independanceDay);
-
-            var laborDay = new HolidayEvent
-            {
-                Date = new DateTime(DateTime.Now.Year, 9, 1),
-                RecurringFrequency = RecurringFrequencies.Custom,
-                EventText = "Labor Day",
+                EventText = "Sovereignty Day of Serbia",
                 CustomRecurringFunction = LaborDayHandler
             };
-            AddEvent(laborDay);
+            AddEvent(sovereigntyDayOfSerbia);
 
-            var columbusDay = new HolidayEvent
+            var sovereigntyDayOfSerbiaHoliday = new HolidayEvent
             {
-                Date = new DateTime(DateTime.Now.Year, 10, 14),
-                RecurringFrequency = RecurringFrequencies.Custom,
-                EventText = "Columbus Day",
+                Date = new DateTime(DateTime.Now.Year, 2, 16),
+                RecurringFrequency = RecurringFrequencies.Yearly,
+                EventText = "Sovereignty Day of Serbia Holiday",
                 CustomRecurringFunction = ColumbusDayHandler
             };
-            AddEvent(columbusDay);
+            AddEvent(sovereigntyDayOfSerbiaHoliday);
 
-            var veteransDay = new HolidayEvent
+            var goodFriday = new HolidayEvent
             {
-                Date = new DateTime(DateTime.Now.Year, 11, 11),
-                RecurringFrequency = RecurringFrequencies.Yearly,
-                EventText = "Veteran's Day"
+                Date = new DateTime(DateTime.Now.Year, 4, 26),
+                RecurringFrequency = RecurringFrequencies.Custom,
+                EventText = "Good Friday (Orthodox)"
             };
-            AddEvent(veteransDay);
+            AddEvent(goodFriday);
 
             var thanksgivingDay = new HolidayEvent
             {
@@ -985,20 +985,20 @@ namespace Calendar.NET
 
                         _rectangles.Add(new Rectangle(xStart, yStart, cellWidth, cellHeight));
 
-                        if (_calendarDate.Year == DateTime.Now.Year && _calendarDate.Month == DateTime.Now.Month
-                         && counter == DateTime.Now.Day && _highlightCurrentDay)
-                        {
-                            g.FillRectangle(new SolidBrush(Color.FromArgb(100, 180, 250)), xStart, yStart, cellWidth, cellHeight);
-                        }
-
                         if (new DateTime(_calendarDate.Year, _calendarDate.Month, counter).DayOfWeek == DayOfWeek.Saturday || new DateTime(_calendarDate.Year, _calendarDate.Month, counter).DayOfWeek == DayOfWeek.Sunday)
                         {
                             g.FillRectangle(new SolidBrush(Color.FromArgb(230, 150, 150)), xStart, yStart, cellWidth, cellHeight);
                         }
 
+                        if (_calendarDate.Year == DateTime.Now.Year && _calendarDate.Month == DateTime.Now.Month
+                         && counter == DateTime.Now.Day && _highlightCurrentDay)
+                        {
+                            g.FillRectangle(new SolidBrush(Color.FromArgb(100, 180, 250)), xStart, yStart, cellWidth, cellHeight);
+                        }
+                     
                         if (_calendarDate.Day == counter && _highlightCurrentDay)
                         {
-                            g.FillRectangle(new SolidBrush(Color.FromArgb(100, 100, 100)), xStart, yStart, cellWidth, cellHeight);
+                            g.FillRectangle(new SolidBrush(Color.FromArgb(150, 150, 150)), xStart, yStart, cellWidth, cellHeight);
                         }
 
                         if (first == false)
