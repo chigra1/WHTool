@@ -58,7 +58,7 @@ namespace WorkingHours.UI
 
         private void btnAddWorkingHours_Click(object sender, EventArgs e)
         {
-            if (cmbProjects.SelectedIndex == -1 || String.IsNullOrEmpty(tbNumberOFHours.Text))
+            if (cmbProjects.SelectedIndex == -1 || numNumberOFHours.Value == 0)
             {
                 MessageBox.Show("Project name, number of hours and date must be selected", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
@@ -89,7 +89,7 @@ namespace WorkingHours.UI
                 if (selectedDate != null)
                 {
                     DBStore store = new DBStore();
-                    store.AddWorkingHours(projectID, selectedDate.ToString("yyyy-MM-dd"), tbNumberOFHours.Text);
+                    store.AddWorkingHours(projectID, selectedDate.ToString("yyyy-MM-dd"), numNumberOFHours.Value.ToString());
 
                     calendar.RemoveAllEvents();
                     LoadHoursForCurrentUser();
@@ -125,6 +125,22 @@ namespace WorkingHours.UI
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            About a = new About();
+            a.ShowDialog();
         }
     }
 }

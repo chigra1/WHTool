@@ -468,7 +468,18 @@ namespace Calendar.NET
 
         public void RemoveAllEvents()
         {
+            List<IEvent> list = new List<IEvent>();
+
+            for (int i = 0; i < _events.Count; i++)
+            {
+                if (_events[i].ReadOnlyEvent == true)
+                {
+                    list.Add(_events[i]);
+                }
+            }
+
             _events.Clear();
+            _events.AddRange(list);
             Refresh();
         }
 
@@ -676,15 +687,6 @@ namespace Calendar.NET
             };
             AddEvent(orthodoxChristmasDay);
 
-            var orthodoxChristmasHoliday = new HolidayEvent
-            {
-                Date = new DateTime(DateTime.Now.Year, 1, 8),
-                RecurringFrequency = RecurringFrequencies.Yearly,
-                EventText = "Orthodox Christmas Holiday",
-                CustomRecurringFunction = MlkDayHandler
-            };
-            AddEvent(orthodoxChristmasHoliday);
-
             var serbianNewYear = new HolidayEvent
             {
                 Date = new DateTime(DateTime.Now.Year, 1, 14),
@@ -693,14 +695,6 @@ namespace Calendar.NET
                 CustomRecurringFunction = MlkDayHandler
             };
             AddEvent(serbianNewYear);
-
-            var stSavasDay = new HolidayEvent
-            {
-                Date = new DateTime(DateTime.Now.Year, 1, 27),
-                RecurringFrequency = RecurringFrequencies.Yearly,
-                EventText = "St. Sava's Day"
-            };
-            AddEvent(stSavasDay);
 
             var sovereigntyDayOfSerbia = new HolidayEvent
             {
@@ -728,22 +722,54 @@ namespace Calendar.NET
             };
             AddEvent(goodFriday);
 
-            var thanksgivingDay = new HolidayEvent
+            var holySaturday = new HolidayEvent
             {
-                Date = new DateTime(DateTime.Now.Year, 11, 11),
+                Date = new DateTime(DateTime.Now.Year, 4, 27),
                 RecurringFrequency = RecurringFrequencies.Custom,
-                EventText = "Thanksgiving Day",
+                EventText = "Orthodox Holy Saturday",
                 CustomRecurringFunction = ThanksgivingDayHandler
             };
-            AddEvent(thanksgivingDay);
+            AddEvent(holySaturday);
 
-            var christmas = new HolidayEvent
+            var orthodoxEasterDay = new HolidayEvent
             {
-                Date = new DateTime(DateTime.Now.Year, 12, 25),
-                RecurringFrequency = RecurringFrequencies.Yearly,
-                EventText = "Christmas Day"
+                Date = new DateTime(DateTime.Now.Year, 4, 28),
+                RecurringFrequency = RecurringFrequencies.Custom,
+                EventText = "Orthodox Easter Day"
             };
-            AddEvent(christmas);
+            AddEvent(orthodoxEasterDay);
+
+            var orthodoxEasterMonday = new HolidayEvent
+            {
+                Date = new DateTime(DateTime.Now.Year, 4, 29),
+                RecurringFrequency = RecurringFrequencies.Custom,
+                EventText = "Orthodox Easter Monday"
+            };
+            AddEvent(orthodoxEasterMonday);
+
+            var labourDay = new HolidayEvent
+            {
+                Date = new DateTime(DateTime.Now.Year, 5, 1),
+                RecurringFrequency = RecurringFrequencies.Yearly,
+                EventText = "Labour Day"
+            };
+            AddEvent(labourDay);
+
+            var labourDayHoliday = new HolidayEvent
+            {
+                Date = new DateTime(DateTime.Now.Year, 5, 2),
+                RecurringFrequency = RecurringFrequencies.Yearly,
+                EventText = "Labour Day Holiday"
+            };
+            AddEvent(labourDayHoliday);
+
+            var armisticeDay = new HolidayEvent
+            {
+                Date = new DateTime(DateTime.Now.Year, 11, 11),
+                RecurringFrequency = RecurringFrequencies.Yearly,
+                EventText = "Armistice Day"
+            };
+            AddEvent(armisticeDay);
         }
 
         [CustomRecurringFunction("Thanksgiving Day Handler", "Selects the fourth Thursday in the month")]

@@ -30,11 +30,18 @@
         {
             this.cmbProjects = new System.Windows.Forms.ComboBox();
             this.btnAddWorkingHours = new System.Windows.Forms.Button();
-            this.tbNumberOFHours = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnClose = new System.Windows.Forms.Button();
             this.calendar = new Calendar.NET.Calendar();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.numNumberOFHours = new System.Windows.Forms.NumericUpDown();
+            this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numNumberOFHours)).BeginInit();
             this.SuspendLayout();
             // 
             // cmbProjects
@@ -49,7 +56,7 @@
             // 
             // btnAddWorkingHours
             // 
-            this.btnAddWorkingHours.Location = new System.Drawing.Point(45, 161);
+            this.btnAddWorkingHours.Location = new System.Drawing.Point(197, 183);
             this.btnAddWorkingHours.Name = "btnAddWorkingHours";
             this.btnAddWorkingHours.Size = new System.Drawing.Size(75, 23);
             this.btnAddWorkingHours.TabIndex = 4;
@@ -57,17 +64,10 @@
             this.btnAddWorkingHours.UseVisualStyleBackColor = true;
             this.btnAddWorkingHours.Click += new System.EventHandler(this.btnAddWorkingHours_Click);
             // 
-            // tbNumberOFHours
-            // 
-            this.tbNumberOFHours.Location = new System.Drawing.Point(136, 132);
-            this.tbNumberOFHours.Name = "tbNumberOFHours";
-            this.tbNumberOFHours.Size = new System.Drawing.Size(100, 20);
-            this.tbNumberOFHours.TabIndex = 5;
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(45, 135);
+            this.label1.Location = new System.Drawing.Point(45, 142);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(85, 13);
             this.label1.TabIndex = 7;
@@ -96,7 +96,7 @@
             // 
             this.calendar.AllowEditingEvents = true;
             this.calendar.AutoScroll = true;
-            this.calendar.CalendarDate = new System.DateTime(2019, 2, 10, 19, 11, 44, 308);
+            this.calendar.CalendarDate = new System.DateTime(2019, 2, 16, 14, 38, 5, 0);
             this.calendar.CalendarView = Calendar.NET.CalendarViews.Month;
             this.calendar.DateHeaderFont = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.calendar.DayOfWeekFont = new System.Drawing.Font("Arial", 10F);
@@ -105,7 +105,7 @@
             this.calendar.DimDisabledEvents = true;
             this.calendar.HighlightCurrentDay = true;
             this.calendar.LoadPresetHolidays = true;
-            this.calendar.Location = new System.Drawing.Point(278, 12);
+            this.calendar.Location = new System.Drawing.Point(291, 42);
             this.calendar.Name = "calendar";
             this.calendar.ShowArrowControls = true;
             this.calendar.ShowDashedBorderOnDisabledEvents = true;
@@ -113,25 +113,79 @@
             this.calendar.ShowDisabledEvents = false;
             this.calendar.ShowEventTooltips = true;
             this.calendar.ShowTodayButton = true;
-            this.calendar.Size = new System.Drawing.Size(1060, 673);
+            this.calendar.Size = new System.Drawing.Size(1036, 650);
             this.calendar.TabIndex = 6;
             this.calendar.TodayFont = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.aboutToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1350, 24);
+            this.menuStrip1.TabIndex = 10;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.closeToolStripMenuItem,
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // closeToolStripMenuItem
+            // 
+            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.closeToolStripMenuItem.Text = "Close";
+            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // numNumberOFHours
+            // 
+            this.numNumberOFHours.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numNumberOFHours.Location = new System.Drawing.Point(136, 135);
+            this.numNumberOFHours.Name = "numNumberOFHours";
+            this.numNumberOFHours.Size = new System.Drawing.Size(136, 29);
+            this.numNumberOFHours.TabIndex = 11;
             // 
             // UserMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1350, 729);
+            this.Controls.Add(this.numNumberOFHours);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.calendar);
-            this.Controls.Add(this.tbNumberOFHours);
             this.Controls.Add(this.btnAddWorkingHours);
             this.Controls.Add(this.cmbProjects);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "UserMainForm";
             this.Text = "User Form";
             this.Load += new System.EventHandler(this.UserMainForm_Load);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numNumberOFHours)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -140,10 +194,15 @@
         #endregion
         private System.Windows.Forms.ComboBox cmbProjects;
         private System.Windows.Forms.Button btnAddWorkingHours;
-        private System.Windows.Forms.TextBox tbNumberOFHours;
         private Calendar.NET.Calendar calendar;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.NumericUpDown numNumberOFHours;
     }
 }
