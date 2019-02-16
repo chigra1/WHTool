@@ -33,13 +33,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnClose = new System.Windows.Forms.Button();
-            this.calendar = new Calendar.NET.Calendar();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.numNumberOFHours = new System.Windows.Forms.NumericUpDown();
+            this.calendar = new Calendar.NET.Calendar();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numNumberOFHours)).BeginInit();
             this.SuspendLayout();
@@ -92,31 +92,6 @@
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
-            // calendar
-            // 
-            this.calendar.AllowEditingEvents = true;
-            this.calendar.AutoScroll = true;
-            this.calendar.CalendarDate = new System.DateTime(2019, 2, 16, 14, 38, 5, 0);
-            this.calendar.CalendarView = Calendar.NET.CalendarViews.Month;
-            this.calendar.DateHeaderFont = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
-            this.calendar.DayOfWeekFont = new System.Drawing.Font("Arial", 10F);
-            this.calendar.DaysFont = new System.Drawing.Font("Arial", 10F);
-            this.calendar.DayViewTimeFont = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            this.calendar.DimDisabledEvents = true;
-            this.calendar.HighlightCurrentDay = true;
-            this.calendar.LoadPresetHolidays = true;
-            this.calendar.Location = new System.Drawing.Point(291, 42);
-            this.calendar.Name = "calendar";
-            this.calendar.ShowArrowControls = true;
-            this.calendar.ShowDashedBorderOnDisabledEvents = true;
-            this.calendar.ShowDateInHeader = true;
-            this.calendar.ShowDisabledEvents = false;
-            this.calendar.ShowEventTooltips = true;
-            this.calendar.ShowTodayButton = true;
-            this.calendar.Size = new System.Drawing.Size(1036, 650);
-            this.calendar.TabIndex = 6;
-            this.calendar.TodayFont = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -140,9 +115,16 @@
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -151,13 +133,6 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
-            // 
             // numNumberOFHours
             // 
             this.numNumberOFHours.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -165,6 +140,31 @@
             this.numNumberOFHours.Name = "numNumberOFHours";
             this.numNumberOFHours.Size = new System.Drawing.Size(136, 29);
             this.numNumberOFHours.TabIndex = 11;
+            // 
+            // calendar
+            // 
+            this.calendar.AllowEditingEvents = true;
+            this.calendar.AutoScroll = true;
+            this.calendar.CalendarDate = new System.DateTime(2019, 2, 16, 14, 38, 5, 0);
+            this.calendar.CalendarView = Calendar.NET.CalendarViews.Month;
+            this.calendar.DateHeaderFont = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
+            this.calendar.DayOfWeekFont = new System.Drawing.Font("Arial", 14F);
+            this.calendar.DaysFont = new System.Drawing.Font("Arial", 14F);
+            this.calendar.DayViewTimeFont = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Bold);
+            this.calendar.DimDisabledEvents = true;
+            this.calendar.HighlightCurrentDay = true;
+            this.calendar.LoadPresetHolidays = true;
+            this.calendar.Location = new System.Drawing.Point(291, 42);
+            this.calendar.Name = "calendar";
+            this.calendar.ShowArrowControls = true;
+            this.calendar.ShowDashedBorderOnDisabledEvents = true;
+            this.calendar.ShowDateInHeader = true;
+            this.calendar.ShowDisabledEvents = false;
+            this.calendar.ShowEventTooltips = true;
+            this.calendar.ShowTodayButton = true;
+            this.calendar.Size = new System.Drawing.Size(1036, 650);
+            this.calendar.TabIndex = 6;
+            this.calendar.TodayFont = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Bold);
             // 
             // UserMainForm
             // 

@@ -51,6 +51,9 @@ namespace Calendar.NET
         private CalendarViews _calendarView;
         private readonly ScrollPanel _scrollPanel;
 
+        private readonly List<int> _hoursByDay;
+        private readonly List<Rectangle> _hoursByDayRectangles;
+
         private readonly List<IEvent> _events;
         private readonly List<Rectangle> _rectangles;
         private readonly Dictionary<int, Point> _calendarDays;
@@ -308,9 +311,9 @@ namespace Calendar.NET
             InitializeComponent();
             _calendarDate = DateTime.Now;
             _dayOfWeekFont = new Font("Arial", 10, FontStyle.Regular);
-            _daysFont = new Font("Arial", 10, FontStyle.Regular);
-            _todayFont = new Font("Arial", 10, FontStyle.Bold);
-            _dateHeaderFont = new Font("Arial", 12, FontStyle.Bold);
+            _daysFont = new Font("Arial", 16, FontStyle.Regular);
+            _todayFont = new Font("Arial", 16, FontStyle.Bold);
+            _dateHeaderFont = new Font("Arial", 18, FontStyle.Bold);
             _dayViewTimeFont = new Font("Arial", 10, FontStyle.Bold);
             _showArrowControls = true;
             _showDateInHeader = true;
@@ -327,6 +330,7 @@ namespace Calendar.NET
 
             _scrollPanel.RightButtonClicked += ScrollPanelRightButtonClicked;
 
+            _hoursByDay = new List<int>();
             _events = new List<IEvent>();
             _rectangles = new List<Rectangle>();
             _calendarDays = new Dictionary<int, Point>();
@@ -335,7 +339,7 @@ namespace Calendar.NET
             _eventTip = new EventToolTip { Visible = false };
 
             Controls.Add(_eventTip);
-
+            
             LoadPresetHolidays = true;
 
             _scrollPanel.Visible = false;
@@ -959,6 +963,7 @@ namespace Calendar.NET
 
         private void RenderMonthCalendar(PaintEventArgs e)
         {
+            _hoursByDay.Clear();
             _rectangles.Clear();
             _calendarDays.Clear();
             _calendarEvents.Clear();
@@ -1010,7 +1015,7 @@ namespace Calendar.NET
                             _calendarDays.Add(counter, new Point(xStart, (int)(yStart + 2f + g.MeasureString(counter.ToString(CultureInfo.InvariantCulture), _daysFont).Height)));
 
                         _rectangles.Add(new Rectangle(xStart, yStart, cellWidth, cellHeight));
-
+                        
                         if (new DateTime(_calendarDate.Year, _calendarDate.Month, counter).DayOfWeek == DayOfWeek.Saturday || new DateTime(_calendarDate.Year, _calendarDate.Month, counter).DayOfWeek == DayOfWeek.Sunday)
                         {
                             g.FillRectangle(new SolidBrush(Color.FromArgb(230, 150, 150)), xStart, yStart, cellWidth, cellHeight);
@@ -1056,7 +1061,11 @@ namespace Calendar.NET
                                 g.DrawString(counter.ToString(CultureInfo.InvariantCulture), _daysFont, Brushes.Black, xStart + 5, yStart + 2);
                             }
                         }
-                        
+
+                        //crtanje ukupno sati po danu
+                        g.FillRectangle(new SolidBrush(Color.FromArgb(50, 50, 150)), xStart + cellWidth / 2, yStart + 2, 70, g.MeasureString(counter.ToString(CultureInfo.InvariantCulture), _daysFont).Height);
+                        g.DrawString(counter.ToString(CultureInfo.InvariantCulture) + "H", _daysFont, Brushes.Black, xStart + cellWidth / 2 + 10, yStart + 2);
+
                         counter++;
                     }
                     else if (rogueDays > 0)
@@ -1137,7 +1146,7 @@ namespace Calendar.NET
 
             for (int i = 1; i <= DateTime.DaysInMonth(_calendarDate.Year, _calendarDate.Month); i++)
             {
-                int renderOffsetY = 0;
+                int renderOffsetY = 10;
 
                 foreach (IEvent v in _events)
                 {
@@ -1259,5 +1268,14 @@ namespace Calendar.NET
             if (_calendarView == CalendarViews.Day)
                 ResizeScrollPanel();
         }
+
+        //private Label MakeLabel(string text, int posX, int posY)
+        //{
+        //    Label label = new Label();
+        //    label.Text = text;
+        //    label.Location = new Point(posX, posY);
+        //    label.BringToFront();
+        //    return label;
+        //}
     }
 }
