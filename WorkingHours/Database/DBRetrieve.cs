@@ -108,7 +108,7 @@ namespace WorkingHours.Database
 
                     while (reader.Read())
                     {
-                        CustomEvent custom = new CustomEvent { InsertId = Convert.ToInt32(reader["id"]), IgnoreTimeComponent = false, Date = (DateTime)reader["date"], RecurringFrequency = RecurringFrequencies.None, EventLengthInHours = Convert.ToInt32(reader["number_of_hours"]), EventText = reader["project_name"].ToString() };
+                        CustomEvent custom = new CustomEvent { InsertId = Convert.ToInt32(reader["id"]), IgnoreTimeComponent = false, Date = (DateTime)reader["date"], RecurringFrequency = RecurringFrequencies.None, EventLengthInHours = Convert.ToInt32(reader["number_of_hours"]), EventText = reader["project_name"].ToString() + " - " + reader["number_of_hours"] + " h" };
                         res.Add(custom);
                     }
                 }

@@ -51,7 +51,7 @@ namespace Calendar.NET
         private CalendarViews _calendarView;
         private readonly ScrollPanel _scrollPanel;
 
-        private readonly List<int> _hoursByDay;
+        private readonly List<float> _hoursByDay;
         private readonly List<Rectangle> _hoursByDayRectangles;
 
         private readonly List<IEvent> _events;
@@ -330,7 +330,7 @@ namespace Calendar.NET
 
             _scrollPanel.RightButtonClicked += ScrollPanelRightButtonClicked;
 
-            _hoursByDay = new List<int>();
+            _hoursByDay = new List<float>();
             _events = new List<IEvent>();
             _rectangles = new List<Rectangle>();
             _calendarDays = new Dictionary<int, Point>();
@@ -339,7 +339,7 @@ namespace Calendar.NET
             _eventTip = new EventToolTip { Visible = false };
 
             Controls.Add(_eventTip);
-            
+
             LoadPresetHolidays = true;
 
             _scrollPanel.Visible = false;
@@ -522,7 +522,7 @@ namespace Calendar.NET
                     _showingToolTip = true;
                     _eventTip.EventToolTipText = z.Event.EventText;
                     if (z.Event.IgnoreTimeComponent == false)
-                        _eventTip.EventToolTipText += "\n" + z.Event.EventLengthInHours +" H" + "\n" + z.Event.InsertId;
+                        _eventTip.EventToolTipText += "\n" + z.Event.EventLengthInHours + " H" + "\n" + z.Event.InsertId;
                     _eventTip.Location = new Point(e.X + 5, e.Y - _eventTip.CalculateSize().Height);
                     _eventTip.ShouldRender = true;
                     _eventTip.Visible = true;
@@ -578,7 +578,7 @@ namespace Calendar.NET
                         }
                     }
                 }
-                
+
             }
 
             int num = _rectangles.Count;
@@ -589,9 +589,8 @@ namespace Calendar.NET
                 if (w.Contains(e.X, e.Y))
                 {
                     DateTime clicked_date = new DateTime(_calendarDate.Year, _calendarDate.Month, i + 1);
-                    
-                    CalendarDate = clicked_date;
 
+                    CalendarDate = clicked_date;
 
                     if (RectangleClick != null)
                         RectangleClick(clicked_date, null);
@@ -905,13 +904,13 @@ namespace Calendar.NET
                         g.DrawString(evnt.EventText, evnt.EventFont, new SolidBrush(evnt.EventTextColor), xStart, yStart + cellHourHeight / divisor);
 
                         var ce = new CalendarEvent
-                                     {
-                                         Event = evnt,
-                                         Date = dt,
-                                         EventArea = new Rectangle(xStart, yStart + cellHourHeight / divisor + 1,
+                        {
+                            Event = evnt,
+                            Date = dt,
+                            EventArea = new Rectangle(xStart, yStart + cellHourHeight / divisor + 1,
                                                                    ClientSize.Width - MarginSize * 2 - cellHourWidth - 3,
                                                                    cellHourHeight * ts.Hours)
-                                     };
+                        };
                         _calendarEvents.Add(ce);
                     }
                 }
@@ -1015,7 +1014,7 @@ namespace Calendar.NET
                             _calendarDays.Add(counter, new Point(xStart, (int)(yStart + 2f + g.MeasureString(counter.ToString(CultureInfo.InvariantCulture), _daysFont).Height)));
 
                         _rectangles.Add(new Rectangle(xStart, yStart, cellWidth, cellHeight));
-                        
+
                         if (new DateTime(_calendarDate.Year, _calendarDate.Month, counter).DayOfWeek == DayOfWeek.Saturday || new DateTime(_calendarDate.Year, _calendarDate.Month, counter).DayOfWeek == DayOfWeek.Sunday)
                         {
                             g.FillRectangle(new SolidBrush(Color.FromArgb(230, 150, 150)), xStart, yStart, cellWidth, cellHeight);
@@ -1026,7 +1025,7 @@ namespace Calendar.NET
                         {
                             g.FillRectangle(new SolidBrush(Color.FromArgb(100, 180, 250)), xStart, yStart, cellWidth, cellHeight);
                         }
-                     
+
                         if (_calendarDate.Day == counter && _highlightCurrentDay)
                         {
                             g.FillRectangle(new SolidBrush(Color.FromArgb(150, 150, 150)), xStart, yStart, cellWidth, cellHeight);
@@ -1061,10 +1060,6 @@ namespace Calendar.NET
                                 g.DrawString(counter.ToString(CultureInfo.InvariantCulture), _daysFont, Brushes.Black, xStart + 5, yStart + 2);
                             }
                         }
-
-                        //crtanje ukupno sati po danu
-                        g.FillRectangle(new SolidBrush(Color.FromArgb(50, 50, 150)), xStart + cellWidth / 2, yStart + 2, 70, g.MeasureString(counter.ToString(CultureInfo.InvariantCulture), _daysFont).Height);
-                        g.DrawString(counter.ToString(CultureInfo.InvariantCulture) + "H", _daysFont, Brushes.Black, xStart + cellWidth / 2 + 10, yStart + 2);
 
                         counter++;
                     }
@@ -1146,13 +1141,20 @@ namespace Calendar.NET
 
             for (int i = 1; i <= DateTime.DaysInMonth(_calendarDate.Year, _calendarDate.Month); i++)
             {
-                int renderOffsetY = 10;
+                _hoursByDay.Add(0);
+
+                int renderOffsetY = 10;//0
 
                 foreach (IEvent v in _events)
                 {
                     var dt = new DateTime(_calendarDate.Year, _calendarDate.Month, i, 23, 59, _calendarDate.Second);
                     if (NeedsRendering(v, dt))
                     {
+                        if (!v.ReadOnlyEvent == true)
+                        {
+                            _hoursByDay[i - 1] = _hoursByDay[i - 1] + v.EventLengthInHours;
+                        }
+
                         int alpha = 255;
                         if (!v.Enabled && _dimDisabledEvents)
                             alpha = 64;
@@ -1192,6 +1194,14 @@ namespace Calendar.NET
                         renderOffsetY += (int)sz.Height + 1;
                     }
                 }
+  
+                Color c = CalcAndPaintHoursByDay(_hoursByDay[i - 1], new DateTime(_calendarDate.Year, _calendarDate.Month, i, 23, 59, _calendarDate.Second));
+                
+                //crtanje ukupno sati po danu
+                Point point2 = _calendarDays[i];
+                g.FillRectangle(new SolidBrush(c), point2.X + 30 + cellWidth / 2, point2.Y - 15, 40, g.MeasureString(i.ToString(CultureInfo.InvariantCulture), _daysFont).Height);
+                g.DrawString(_hoursByDay[i - 1].ToString(CultureInfo.InvariantCulture) + "h", _daysFont, Brushes.White, point2.X + cellWidth / 2 + 40, point2.Y - 15);
+
             }
 
             g.Dispose();
@@ -1199,6 +1209,31 @@ namespace Calendar.NET
             bmp.Dispose();
         }
 
+        private Color CalcAndPaintHoursByDay(float numOfHours, DateTime day)
+        {
+            Color c = new Color();
+
+            int compare = DateTime.Compare(DateTime.Now.Date, day.Date);
+
+            //if datetime.now is earlier than day
+            if (compare < 0)
+            {
+                if (numOfHours < 1 || numOfHours > 8)
+                {
+                    c = Color.FromArgb(230, 150, 150);
+                }
+                else
+                {
+                    c = Color.FromArgb(100, 200, 75);
+                }
+            }
+            else
+            {
+                c = Color.FromArgb(200, 200, 200);
+            }
+
+            return c;
+        }
 
 
         private bool NeedsRendering(IEvent evnt, DateTime day)

@@ -21,8 +21,11 @@ namespace WorkingHours.UI
             InitializeComponent();
             this.AcceptButton = this.btnLogin;
 
-            tbUsername.Text = Properties.Settings.Default.username;
-            tbPassword.Text = Properties.Settings.Default.password;
+            //tbUsername.Text = Properties.Settings.Default.username;
+            //tbPassword.Text = Properties.Settings.Default.password;
+
+            tbUsername.Text = "borjana.panic";
+            tbPassword.Text = "borjana";
         }
 
         private void btnLogin_Click(object sender, EventArgs e)

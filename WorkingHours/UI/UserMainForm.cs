@@ -25,6 +25,7 @@ namespace WorkingHours.UI
             InitializeComponent();
             this.user = user;
 
+            calendar.CalendarDate = DateTime.Now;
             calendar.DeleteWorkingHours += HandleDeleteWorkingHours;
             calendar.RectangleClick += HandleRectangleClick;
         }
@@ -117,6 +118,8 @@ namespace WorkingHours.UI
 
             calendar.CalendarView = CalendarViews.Month;
             calendar.AllowEditingEvents = true;
+
+            
 
             calendar.IsAccessible = true;
             calendar.Enabled = true;

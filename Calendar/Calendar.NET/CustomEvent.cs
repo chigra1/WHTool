@@ -109,9 +109,9 @@ namespace Calendar.NET
         /// </summary>
         public CustomEvent()
         {
-            EventColor = Color.FromArgb(40, 150, 50);
+            EventColor = Color.FromArgb(200, 200, 200);
             EventFont = new Font("Arial", 11, FontStyle.Bold);
-            EventTextColor = Color.FromArgb(255, 255, 255);
+            EventTextColor = Color.FromArgb(0, 0, 0);
             Rank = 2;
             EventLengthInHours = 1.0f;
             ReadOnlyEvent = false;
